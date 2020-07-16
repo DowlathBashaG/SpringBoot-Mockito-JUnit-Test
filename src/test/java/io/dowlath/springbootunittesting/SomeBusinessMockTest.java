@@ -3,6 +3,11 @@ package io.dowlath.springbootunittesting;
 import io.dowlath.springbootunittesting.data.SomeDataService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -13,39 +18,37 @@ import static org.mockito.Mockito.when;
  */
 
 
+@RunWith(MockitoJUnitRunner.class)
 public class SomeBusinessMockTest {
 
-    SomeBusinessImpl business = new SomeBusinessImpl();
-    SomeDataService dataServiceMock = mock(SomeDataService.class);
+    @InjectMocks  // if you use InjectMocks no need to use @Before, remove @Before block
+    //SomeBusinessImpl business = new SomeBusinessImpl();
+    SomeBusinessImpl business;
 
-    @Before
+    @Mock
+    //SomeDataService dataServiceMock = mock(SomeDataService.class);
+    SomeDataService dataServiceMock;
+
+    // if you use InjectMocks no need to use @Before, remove @Before block
+    /*@Before
     public void before(){
         business.setSomeDataService(dataServiceMock);
-    }
+    }*/
 
     @Test
     public void calculateSumUsingDataService_basic(){
         when(dataServiceMock.retrieveAllData()).thenReturn(new int[] {1,2,3});
-       // business.setSomeDataService(dataServiceMock);
-        int actualResult = business.calculateSumUsingDataService();
-        int expectedResult = 6;
-        assertEquals(expectedResult,actualResult);
+        assertEquals(6,business.calculateSumUsingDataService());
     }
 
     @Test
     public void calculateSumUsingDataService_Empty(){
         when(dataServiceMock.retrieveAllData()).thenReturn(new int[]{});
-       // business.setSomeDataService(dataServiceMock);
-        int actualResult = business.calculateSumUsingDataService();
-        int expectedResult = 0;
-        assertEquals(expectedResult,actualResult);
+        assertEquals(0,business.calculateSumUsingDataService());
     }
     @Test
     public void calculateSumUsingDataService_oneValue(){
         when(dataServiceMock.retrieveAllData()).thenReturn(new int[]{5});
-       // business.setSomeDataService(dataServiceMock);
-        int actualResult = business.calculateSumUsingDataService();
-        int expectedResult = 5;
-        assertEquals(expectedResult,actualResult);
+        assertEquals(5,business.calculateSumUsingDataService());
     }
 }

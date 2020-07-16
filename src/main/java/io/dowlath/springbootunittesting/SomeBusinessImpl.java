@@ -2,6 +2,8 @@ package io.dowlath.springbootunittesting;
 
 import io.dowlath.springbootunittesting.data.SomeDataService;
 
+import java.util.Arrays;
+
 /**
  * @Author Dowlath
  * @create 7/14/2020 8:42 PM
@@ -15,11 +17,15 @@ public class SomeBusinessImpl {
     }
 
     public int calculateSum(int[] data){
-        int sum=0;
+
+    /*     int sum=0;
         for(int value : data){
             sum+=value;
         }
-        return sum;
+        return sum;*/
+
+        // functional style of programming.
+        return Arrays.stream(data).reduce(Integer::sum).orElse(0);
     }
 
     public int calculateSumUsingDataService(){
